@@ -1,0 +1,32 @@
+﻿
+@page "/patient"
+@inject PatientService patientService     /* Dependency Injection in razor component */
+
+<h3>Patient Page</h3>
+
+<input placeholder="FirstName" @bind="FirstName" />  <br /> <br />
+<input placeholder="LastName" @bind="LastName" />  <br /> <br />
+<button @onclick="AddPatient">Add Patient</button>
+
+<div>
+@foreach (var patientInfo in patientService.patients)
+{
+    <b>@patientInfo.FirstName</b>
+    <br />
+    <b>@patientInfo.LastName</b>
+    <br />
+}
+</div>
+@code {
+    private string FirstName, LastName;
+    private void AddPatient()
+    {
+        var patientData = new PatientData
+            {
+                FirstName = FirstName,
+                LastName = LastName
+            };
+    
+     patientService.AddPatient(patientData);  // Add Patient Data to Service
+    }
+}

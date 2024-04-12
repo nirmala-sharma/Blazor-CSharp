@@ -1,0 +1,52 @@
+﻿@page "/hospital"
+@inject PatientService patientServiceInjection  /* Dependency Injection */
+
+<h3>Hospital Page</h3>
+
+@foreach (var patientData in CurrentPageItems)
+{
+    <b>@patientData.FirstName</b>
+    <br />
+    <b>@patientData.LastName</b>
+    <br />
+
+}
+
+<button disabled="@IsFirstPage" @onclick="PreviousPage">Previous</button>
+<button disabled="@IsLastPage" @onclick="NextPage">Next</button>
+
+@code {
+    public List<PatientData> patients;
+
+    // Number of items that will be displayed on each page
+    int PageSize = 1;
+
+    //This act like PageNo
+    int CurrentPage = 0;
+    bool IsFirstPage => CurrentPage == 0;
+    bool IsLastPage => (CurrentPage + 1) * PageSize >= patients.Count;
+
+    //How this skip and take works: Lets say Currentpage is 0 i.e.we are on first page it skip 0th index element of patients list and then it take desired rows i.e.if PageSize is 1 it take 1 row of the list after skipping some rows of the list
+    List<PatientData> CurrentPageItems => patients.Skip(CurrentPage * PageSize).Take(PageSize).ToList();
+
+    // This method is called when the component has been initialized
+    protected override void OnInitialized()
+    {
+        patients = patientServiceInjection.Getpatient();
+    }
+    void PreviousPage()
+    {
+        if (!IsFirstPage)
+        {
+            CurrentPage--;
+        }
+    }
+
+    void NextPage()
+    {
+        if (!IsLastPage)
+        {
+            CurrentPage++;
+        }
+    }
+}
