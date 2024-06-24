@@ -7,7 +7,6 @@
 <input placeholder="FirstName" @bind="FirstName" />  <br /> <br />
 <input placeholder="LastName" @bind="LastName" />  <br /> <br />
 <button @onclick="AddPatient">Add Patient</button>
-<h1>Nirmala Sharma</h1>
 <div>
 @foreach (var patientInfo in patientService.patients)
 {
@@ -30,4 +29,3 @@
      patientService.AddPatient(patientData);  // Add Patient Data to Service
     }
 }
-<h1>trying Cherypick</h1>
